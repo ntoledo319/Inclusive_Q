@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Questionnaire Responses</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0f172a; --mid:#1e293b; --border:#334155; --teal:#0e7c7b; --teal-g:#14b8a6; --gold:#f59e0b; --text:#f1f5f9; --dim:#94a3b8; --body:#cbd5e1; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--body);min-height:100vh;padding:20px}
+.wrap{max-width:800px;margin:0 auto}
+h1{font-family:'DM Serif Display',serif;color:var(--text);font-size:28px;margin-bottom:4px;font-weight:400}
+.subtitle{color:var(--dim);font-size:14px;margin-bottom:24px}
+.status{display:inline-block;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600;margin-bottom:24px}
+.status.submitted{background:rgba(14,124,123,0.15);color:var(--teal-g)}
+.status.in-progress{background:rgba(245,158,11,0.15);color:var(--gold)}
+.status.not-started{background:rgba(100,116,139,0.15);color:var(--dim)}
+.meta{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:32px;font-size:13px;color:var(--dim)}
+.meta span strong{color:var(--body)}
+.section-block{background:var(--mid);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px}
+.section-title{font-family:'DM Serif Display',serif;color:var(--text);font-size:20px;margin-bottom:16px;font-weight:400}
+.qa{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(51,65,85,0.4)}
+.qa:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.q-text{font-size:14px;font-weight:500;color:var(--text);margin-bottom:8px}
+.q-num{color:var(--teal-g);font-weight:600}
+.answer{font-size:14px;color:var(--body);line-height:1.6}
+.answer .tag{display:inline-block;background:rgba(14,124,123,0.1);color:var(--teal-g);padding:3px 10px;border-radius:6px;font-size:13px;margin:2px 4px 2px 0}
+.no-answer{color:var(--dim);font-style:italic;font-size:13px}
+.empty{text-align:center;padding:60px 20px;color:var(--dim)}
+.empty .big{font-size:48px;margin-bottom:16px;display:block}
+.refresh{background:var(--teal);color:white;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:24px;font-family:inherit}
+.refresh:hover{background:var(--teal-g)}
+</style>
+</head>
+<body>
+<div class="wrap" id="admin"></div>
+<script>
+const SECTIONS = [
+  {id:"visual",icon:"👁️",title:"Visual & Sensory",qids:["1.1","1.2","1.3","1.4","1.5","1.6"]},
+  {id:"language",icon:"💬",title:"Language & Tone",qids:["2.1","2.2","2.3","2.4","2.5","2.6","2.7"]},
+  {id:"imagery",icon:"🎨",title:"Imagery & Representation",qids:["3.1","3.2","3.3","3.4"]},
+  {id:"forms",icon:"📋",title:"Forms & Identity",qids:["4.1","4.2","4.3","4.4","4.5","4.6"]},
+  {id:"ai",icon:"🤖",title:"AI & Automation",qids:["5.1","5.2","5.3","5.4","5.5","5.6"]},
+  {id:"community",icon:"🤝",title:"Community & Events",qids:["6.1","6.2","6.3","6.4","6.5","6.6"]},
+  {id:"emails",icon:"📧",title:"Emails & Outreach",qids:["7.1","7.2","7.3","7.4"]},
+  {id:"privacy",icon:"🔒",title:"Privacy & Safety",qids:["8.1","8.2","8.3","8.4","8.5"]},
+  {id:"recovery",icon:"💛",title:"Recovery-Specific",qids:["9.1","9.2","9.3","9.4","9.5"]},
+  {id:"governance",icon:"⚙️",title:"Your Role & Process",qids:["10.1","10.2","10.3","10.4","10.5"]}
+];
+
+const QUESTIONS = {"1.1":"How easy should text be to read against its background?","1.2":"Should visitors be able to customize how the site looks?","1.3":"Rules for photos, videos, and audio?","1.4":"Should someone be able to use the site without a mouse?","1.5":"Content with timers or auto-movement?","1.6":"Anything else about disability accessibility?","2.1":"How should we handle pronouns?","2.2":"Words or phrases to ban?","2.3":"How simple should the writing be?","2.4":"Other languages?","2.5":"Cultural assumptions to avoid?","2.6":"Warnings before sensitive content?","2.7":"How should error messages sound?","3.1":"What diversity in imagery?","3.2":"Rules for AI-generated images?","3.3":"Profile pictures and avatars?","3.4":"Icons and symbols?","4.1":"How to ask for names?","4.2":"Should we ask gender?","4.3":"Pronoun sharing?","4.4":"What personal info to collect?","4.5":"Address and location fields?","4.6":"Required fields that should be optional?","5.1":"AI chatbot tone?","5.2":"Sensitive topics for AI?","5.3":"What should AI never do?","5.4":"AI handling unknowns?","5.5":"Review AI content?","5.6":"Content filters and identity posts?","6.1":"Event registration form?","6.2":"Virtual event accessibility?","6.3":"In-person event accessibility?","6.4":"Code of conduct?","6.5":"Harassment reporting?","6.6":"User profile sharing?","7.1":"Email inclusion rules?","7.2":"Social media rules?","7.3":"Notification respect?","7.4":"Outreach reflection?","8.1":"Strongest privacy protection?","8.2":"Who sees identity info?","8.3":"Anonymity support?","8.4":"Public statements?","8.5":"Legal standards?","9.1":"Digital anonymity traditions?","9.2":"Recovery language rules?","9.3":"Recovery diversity?","9.4":"Dedicated safe spaces?","9.5":"AI and recovery topics?","10.1":"How involved do you want to be?","10.2":"How should we reach you?","10.3":"Regular review schedule?","10.4":"User problem reporting?","10.5":"Anything else?"};
+
+const key = new URLSearchParams(window.location.search).get('key');
+
+async function load() {
+  try {
+    const res = await fetch(`/api/admin/responses?key=${key}`);
+    if (!res.ok) throw new Error('Unauthorized');
+    const data = await res.json();
+    renderAdmin(data);
+  } catch(e) {
+    document.getElementById('admin').innerHTML = '<div class="empty"><span class="big">🔒</span><p>Unable to load responses.</p></div>';
+  }
+}
+
+function renderAdmin(data) {
+  const answers = data.answers || {};
+  const hasAnswers = Object.keys(answers).length > 0;
+  
+  let statusClass = 'not-started';
+  let statusText = 'Not Started';
+  if (data.submitted) { statusClass = 'submitted'; statusText = 'Submitted'; }
+  else if (hasAnswers) { statusClass = 'in-progress'; statusText = 'In Progress'; }
+
+  let html = `
+    <h1>📊 Questionnaire Responses</h1>
+    <p class="subtitle">Accessibilities Chair — Inclusion Questionnaire</p>
+    <div class="status ${statusClass}">${statusText}</div>
+    <div class="meta">
+      ${data.firstStarted ? `<span>Started: <strong>${new Date(data.firstStarted).toLocaleDateString()}</strong></span>` : ''}
+      ${data.lastUpdated ? `<span>Last updated: <strong>${new Date(data.lastUpdated).toLocaleString()}</strong></span>` : ''}
+      ${data.submittedAt ? `<span>Submitted: <strong>${new Date(data.submittedAt).toLocaleString()}</strong></span>` : ''}
+      <span>Progress: <strong>${data.progress || 0}%</strong></span>
+    </div>`;
+
+  if (!hasAnswers) {
+    html += '<div class="empty"><span class="big">📭</span><p>No responses yet. Once your Accessibilities Chair starts filling out the form, their answers will appear here.</p><button class="refresh" onclick="load()">Refresh</button></div>';
+  } else {
+    SECTIONS.forEach(sec => {
+      let qas = sec.qids.map(qid => {
+        const a = answers[qid];
+        let answerHtml = '';
+        if (!a || (Array.isArray(a) && a.length === 0) || (typeof a === 'string' && !a.trim())) {
+          answerHtml = '<div class="no-answer">— no answer yet —</div>';
+        } else if (Array.isArray(a)) {
+          answerHtml = '<div class="answer">' + a.map(v => `<span class="tag">✓ ${v}</span>`).join('') + '</div>';
+        } else {
+          answerHtml = `<div class="answer">${a.replace(/\n/g,'<br>')}</div>`;
+        }
+        return `<div class="qa"><div class="q-text"><span class="q-num">${qid}</span> ${QUESTIONS[qid]||qid}</div>${answerHtml}</div>`;
+      }).join('');
+
+      html += `<div class="section-block"><h2 class="section-title">${sec.icon} ${sec.title}</h2>${qas}</div>`;
+    });
+    html += '<button class="refresh" onclick="load()">🔄 Refresh Responses</button>';
+  }
+
+  document.getElementById('admin').innerHTML = html;
+}
+
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Accessibilities Chair Questionnaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f172a;
+  --navy-mid: #1e293b;
+  --navy-light: #334155;
+  --teal: #0e7c7b;
+  --teal-glow: #14b8a6;
+  --teal-soft: rgba(14,124,123,0.12);
+  --gold: #f59e0b;
+  --gold-soft: rgba(245,158,11,0.15);
+  --cream: #fefce8;
+  --text: #f1f5f9;
+  --text-dim: #94a3b8;
+  --text-body: #cbd5e1;
+  --card: rgba(30,41,59,0.7);
+  --card-border: rgba(51,65,85,0.5);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+  background: var(--navy);
+  color: var(--text-body);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Background decoration */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  right: -30%;
+  width: 80vw;
+  height: 80vw;
+  background: radial-gradient(circle, rgba(14,124,123,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -40%;
+  left: -20%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 120px;
+}
+
+/* ─── HEADER ─── */
+.hero {
+  text-align: center;
+  padding: 48px 20px 40px;
+  margin-bottom: 32px;
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--teal-soft);
+  color: var(--teal-glow);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(14,124,123,0.2);
+}
+.hero h1 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(28px, 6vw, 42px);
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+.hero h1 span { color: var(--teal-glow); }
+.hero p {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ─── PROGRESS BAR ─── */
+.progress-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 12px 0 10px;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-bottom: 1px solid rgba(51,65,85,0.3);
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.progress-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+}
+.progress-label strong { color: var(--teal-glow); }
+.progress-pct {
+  font-size: 13px;
+  color: var(--teal-glow);
+  font-weight: 600;
+}
+.progress-track {
+  width: 100%;
+  height: 4px;
+  background: var(--navy-light);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--teal-glow));
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: 6px;
+  height: 6px;
+  background: var(--teal-glow);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--teal-glow);
+}
+
+/* ─── SECTION NAV PILLS ─── */
+.section-nav {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 0 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.section-nav::-webkit-scrollbar { display: none; }
+.nav-pill {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--navy-mid);
+  color: var(--text-dim);
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.nav-pill:hover { border-color: var(--teal); color: var(--text); }
+.nav-pill.active {
+  background: var(--teal);
+  color: white;
+  border-color: var(--teal);
+  box-shadow: 0 2px 12px rgba(14,124,123,0.3);
+}
+.nav-pill.completed {
+  background: rgba(14,124,123,0.15);
+  color: var(--teal-glow);
+  border-color: rgba(14,124,123,0.3);
+}
+
+/* ─── SECTION CARD ─── */
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(8px);
+  animation: fadeUp 0.4s ease-out;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section-header {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--card-border);
+}
+.section-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+.section-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 24px;
+  color: var(--text);
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.section-context {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  background: rgba(14,124,123,0.06);
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--teal);
+}
+
+/* ─── QUESTIONS ─── */
+.question-block {
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(51,65,85,0.3);
+}
+.question-block:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.q-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.q-number {
+  color: var(--teal-glow);
+  font-weight: 600;
+  margin-right: 4px;
+}
+.q-explainer {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--gold-soft);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--gold);
+}
+.q-explainer::before {
+  content: '💡 ';
+}
+
+/* ─── CHECKBOXES ─── */
+.check-group { display: flex; flex-direction: column; gap: 8px; }
+.check-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(15,23,42,0.5);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+.check-option:hover {
+  border-color: var(--teal);
+  background: rgba(14,124,123,0.06);
+}
+.check-option.checked {
+  border-color: var(--teal);
+  background: rgba(14,124,123,0.1);
+}
+.check-box {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--navy-light);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  margin-top: 1px;
+}
+.check-option.checked .check-box {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+.check-box svg {
+  width: 14px;
+  height: 14px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+.check-option.checked .check-box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+.check-text {
+  font-size: 14.5px;
+  color: var(--text-body);
+  line-height: 1.5;
+  flex: 1;
+}
+.check-option.checked .check-text { color: var(--text); }
+
+/* ─── TEXT AREAS ─── */
+.text-area {
+  width: 100%;
+  min-height: 100px;
+  padding: 14px 16px;
+  background: rgba(15,23,42,0.5);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color var(--transition);
+  outline: none;
+}
+.text-area::placeholder { color: var(--navy-light); }
+.text-area:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(14,124,123,0.1);
+}
+
+/* ─── NAVIGATION BUTTONS ─── */
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: space-between;
+}
+.btn {
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-back {
+  background: var(--navy-mid);
+  color: var(--text-dim);
+  border: 1px solid var(--card-border);
+}
+.btn-back:hover { color: var(--text); border-color: var(--text-dim); }
+.btn-next {
+  background: var(--teal);
+  color: white;
+  margin-left: auto;
+}
+.btn-next:hover {
+  background: var(--teal-glow);
+  box-shadow: 0 4px 16px rgba(14,124,123,0.35);
+  transform: translateY(-1px);
+}
+.btn-submit {
+  background: linear-gradient(135deg, var(--teal), var(--teal-glow));
+  color: white;
+  margin-left: auto;
+  padding: 16px 36px;
+  font-size: 16px;
+}
+.btn-submit:hover {
+  box-shadow: 0 4px 20px rgba(14,124,123,0.4);
+  transform: translateY(-1px);
+}
+
+/* ─── SAVE INDICATOR ─── */
+.save-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--navy-mid);
+  color: var(--teal-glow);
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid rgba(14,124,123,0.3);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 200;
+}
+.save-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── SUBMITTED STATE ─── */
+.submitted-card {
+  text-align: center;
+  padding: 60px 24px;
+}
+.submitted-card .big-emoji { font-size: 64px; margin-bottom: 20px; display: block; }
+.submitted-card h2 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+.submitted-card p {
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+/* ─── WELCOME SCREEN ─── */
+.welcome-card {
+  text-align: center;
+  padding: 40px 24px;
+}
+.welcome-card h2 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  color: var(--text);
+  font-size: 22px;
+  margin: 16px 0 12px;
+  font-weight: 400;
+}
+.welcome-card p {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.welcome-bullets {
+  text-align: left;
+  max-width: 480px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.welcome-bullet {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+.welcome-bullet span:first-child { flex-shrink: 0; }
+.btn-start {
+  background: linear-gradient(135deg, var(--teal), var(--teal-glow));
+  color: white;
+  padding: 16px 40px;
+  font-size: 17px;
+  margin-top: 24px;
+  border-radius: 12px;
+  display: inline-flex;
+}
+.btn-start:hover {
+  box-shadow: 0 4px 24px rgba(14,124,123,0.4);
+  transform: translateY(-2px);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 600px) {
+  .container { padding: 12px 12px 100px; }
+  .section-card { padding: 24px 16px; }
+  .hero { padding: 32px 12px 28px; }
+  .check-option { padding: 10px 12px; }
+  .nav-buttons { flex-wrap: wrap; }
+  .btn { flex: 1; justify-content: center; min-width: 120px; }
+}
+
+/* ─── ACCESSIBILITY ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+:focus-visible {
+  outline: 2px solid var(--teal-glow);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="app"></div>
+<div class="save-toast" id="saveToast">✓ Saved</div>
+
+<script>
+// ═══════════════════════════════════════
+// QUESTION DATA
+// ═══════════════════════════════════════
+const SECTIONS = [
+  {
+    id:"visual", icon:"👁️", title:"Visual & Sensory",
+    context:"This section is about how the website looks, sounds, and feels — especially for people who are blind or low-vision, deaf or hard of hearing, colorblind, have seizure conditions, or use assistive devices like screen readers.",
+    questions:[
+      {id:"1.1", text:"How easy should text be to read against its background?", note:"\"Color contrast\" is the difference between the text color and the background color. Low contrast (like light gray text on white) is hard to read for people with low vision or just in bright sunlight. There are official standards — the basic one (\"AA\") is good, the stricter one (\"AAA\") is even better but harder to achieve everywhere.", type:"check", options:["Good contrast — meets the standard most websites aim for (AA level)","Best possible contrast — meets the strictest standard (AAA level)","Not sure — just make it as readable as possible for everyone"]},
+      {id:"1.2", text:"Should visitors be able to customize how the site looks for them?", note:"These are toggles/buttons a visitor can click to change the site's appearance to suit their needs.", type:"check", options:["Dark mode (light text on dark background — easier on eyes, especially at night)","High-contrast mode (extra bold colors so text really pops off the page)","Font size controls (make text bigger or smaller)","Dyslexia-friendly font option (a special font designed to be easier to read for people with dyslexia)","Turn off animations (some people get dizzy, nauseous, or have seizures from moving content)","Grayscale mode (removes all color — helps some people focus)"]},
+      {id:"1.3", text:"What rules should apply to photos, videos, and audio on the site?", note:"\"Alt text\" is a written description attached to every image so blind people using screen readers can hear what the image shows. \"Closed captions\" are the text at the bottom of videos showing what's being said. \"Audio descriptions\" are a voiceover describing what's happening visually for people who can't see it.", type:"check", options:["Every image must have a written description for people who can't see it (alt text)","Every video must have captions showing what's being said","Every video should describe visual action out loud for blind users (audio descriptions)","Every audio clip (podcasts, etc.) must have a written transcript","Nothing should play sound or video automatically — the user has to press play","No flashing or strobe effects anywhere (can trigger seizures)","Sign language interpretation available for important content"]},
+      {id:"1.4", text:"Should someone be able to use the entire site without a mouse?", note:"Many people with physical disabilities, tremors, or motor impairments can't use a mouse. They use Tab, arrow keys, and Enter to navigate. \"Focus indicators\" are visible outlines showing which button you're currently on. \"Skip links\" let users jump past menus straight to the content.", type:"check", options:["Yes — everything must work with just a keyboard (Tab, Enter, arrows)","There should be a visible highlight showing where you are as you Tab through","Every page should have a shortcut to skip past the menu and jump to the content","Pop-up windows must be closable by pressing Escape"]},
+      {id:"1.5", text:"What about content that has a timer or moves on its own?", note:"Some people need more time to read, process, or interact with content — especially people with cognitive disabilities, screen reader users, or anyone who gets interrupted.", type:"check", options:["Users must be able to pause, stop, or get more time on anything with a countdown","Nothing should advance or move to the next thing automatically","If the site is about to log someone out for inactivity, warn them first and let them extend"]},
+      {id:"1.6", text:"Anything else about making the site work for people with disabilities?", note:"For example: Are there specific tools or devices our community members use that we should test with? Anything you've heard from people about what frustrates them on other websites?", type:"text"}
+    ]
+  },
+  {
+    id:"language", icon:"💬", title:"Language & Tone",
+    context:"Every word on the site sends a message about who belongs here. This section covers how we talk to people — pronouns, greetings, reading level, cultural assumptions, and the overall vibe. These rules apply to everything written by humans AND everything written by our AI tools.",
+    questions:[
+      {id:"2.1", text:"How should we handle pronouns (he/she/they) across the site?", note:"This is about what pronouns we use when we don't know someone's gender — in emails, on the site, in automated messages, etc.", type:"check", options:["Talk directly to the person — use \"you\" and \"your\" instead of he/she whenever possible","When talking about someone whose gender we don't know, use \"they/them\"","Never assume someone's gender based on their name or how they look","When writing about a specific person, always use the pronouns they've told us","No gendered greetings like \"Hey guys\" — use \"Hey everyone\" or \"Hey folks\" instead"]},
+      {id:"2.2", text:"What words or phrases should we ban from the site entirely?", note:"Some common examples: \"guys\" (gendered), \"ladies and gentlemen\" (binary), \"blacklist/whitelist\" (racial connotation), \"grandfathered in\" (rooted in racial voter suppression), \"spirit animal\" (appropriation of Indigenous culture), \"lame\" / \"crazy\" / \"blind spot\" (ableist). List anything you want added or removed.", type:"text"},
+      {id:"2.3", text:"How simple should the writing be?", note:"\"Reading level\" means how complex the sentences and vocabulary are. Writing at a 6th–8th grade level doesn't mean it's childish — it means it's clear and accessible to non-native English speakers, people with learning disabilities, or anyone who just wants info fast.", type:"check", options:["Keep it simple — 6th–8th grade level (most newspapers write at this level)","Moderate — 8th–10th grade level","Just use plain, clear language — don't overthink the grade level","For complex topics, offer a simplified version alongside the detailed one"]},
+      {id:"2.4", text:"Should the site be available in other languages? Which ones?", note:"Think about who's in your community. Would Spanish help? Should important content be available in ASL (American Sign Language) videos?", type:"text"},
+      {id:"2.5", text:"What cultural assumptions should we avoid in our writing?", note:"Things people often don't notice: assuming everyone celebrates Christmas, using sports metaphors (\"slam dunk,\" \"home run\"), referencing American holidays as universal, assuming everyone has access to a car/internet/stable housing.", type:"text"},
+      {id:"2.6", text:"Should we put warnings before sensitive content?", note:"\"Content warnings\" are a short heads-up before content that might be distressing — like discussions of trauma, substance use, violence, or discrimination. They let people decide if they're ready to read it.", type:"check", options:["Yes — show a brief warning before sensitive topics","Let users set their own filters for what content they want to see","Put sensitive content in a section they have to click to expand"]},
+      {id:"2.7", text:"When something goes wrong on the site, how should error messages talk to people?", note:"Bad example: \"Error 403: Invalid input.\" (cold, confusing). Good example: \"Hmm, that didn't work — here's what you can try.\" (warm, helpful).", type:"text"}
+    ]
+  },
+  {
+    id:"imagery", icon:"🎨", title:"Imagery & Representation",
+    context:"Every photo, illustration, and icon on the site tells visitors who this space is for. When someone only sees one type of person represented, they get the message that this isn't for them.",
+    questions:[
+      {id:"3.1", text:"When we use photos or illustrations of people, what kind of diversity should we show?", type:"check", options:["A range of races and ethnicities","Different body types and sizes","People with visible disabilities (wheelchair users, prosthetics, etc.)","A range of ages — not just young people","People who present their gender in different ways","Different kinds of families (single parents, same-sex couples, multigenerational, etc.)","Don't put people in stereotypical roles (e.g., only showing women as caregivers)"]},
+      {id:"3.2", text:"We sometimes use AI to generate images. What rules should apply?", note:"When you ask AI to generate a \"doctor\" or \"leader,\" it almost always makes a young white man. Unless we specifically tell it otherwise, AI defaults to very narrow representation. You'd be setting the rules.", type:"check", options:["Any AI-generated image must be reviewed by you before we use it","When generating images, we must specifically ask the AI for diverse representation","Don't use AI to create images of real, specific people","Label AI-generated images so people know they're not real photos","Don't use AI-generated images at all"]},
+      {id:"3.3", text:"What about profile pictures and avatars?", note:"\"Avatars\" are small icons or cartoon-style images people can use as their profile picture instead of a real photo.", type:"check", options:["The default avatar should not look male or female","If we offer avatar options, include different skin tones","Include options for hijab, head coverings, and cultural accessories","Include options for assistive devices (wheelchairs, hearing aids, etc.)","Let people upload their own photo or image","Don't require a profile picture at all — make it totally optional"]},
+      {id:"3.4", text:"Any thoughts on the small icons and symbols we use throughout the site?", note:"Examples: bathroom-style stick figures (gendered?), hand gesture emojis (mean different things in different cultures), using colors to mean things (red = bad, green = good doesn't work for colorblind people).", type:"text"}
+    ]
+  },
+  {
+    id:"forms", icon:"📋", title:"Forms & Identity",
+    context:"Anytime someone fills out a form on our site — signing up, registering for an event, updating their profile — every field and every dropdown sends a message about whether they exist in our system.",
+    questions:[
+      {id:"4.1", text:"How should we ask for someone's name?", note:"Not all names fit \"First Name / Last Name\" boxes. Some cultures put family names first. Some people have one name. Some names use characters like ñ, ü, or 李. Some people go by a different name than their legal one.", type:"check", options:["Just one \"Name\" box instead of separate first/last (more flexible for all cultures)","Allow hyphens, apostrophes, accents, and spaces in names (like O'Brien or García)","Don't require a minimum number of characters (some names are short!)","Support non-English characters (Chinese, Arabic, Hindi, etc.)","Add an optional \"What should we call you?\" or \"Display name\" field","Separate \"First / Last\" is fine for our needs"]},
+      {id:"4.2", text:"Should we ask people their gender? If so, how?", note:"There's no one right answer. If we do ask, HOW we ask matters — a dropdown with only \"Male/Female\" excludes a lot of people.", type:"check", options:["Don't ask for gender at all","Let people type whatever they want (open text box)","Dropdown: Man, Woman, Non-binary, Prefer to self-describe, Prefer not to say","Let people pick more than one option (multi-select)","Only ask if legally required, and explain why we're asking"]},
+      {id:"4.3", text:"Should we let people share their pronouns (she/her, he/him, they/them)?", type:"check", options:["Yes — optional field on their profile, never required","Show their pronouns next to their name everywhere on the site","Don't collect pronouns"]},
+      {id:"4.4", text:"Should we collect any of this personal information?", note:"For each one you check, think about: Should it be required or optional? Should we explain WHY we're asking? Should there always be a \"Prefer not to say\" option?", type:"check", options:["Race/ethnicity","Sexual orientation","Disability status","Age or date of birth","Religious affiliation","Veteran status","Income / financial situation","Primary language spoken"]},
+      {id:"4.5", text:"How should we handle address and location fields?", note:"Not everyone has a permanent address (homelessness, transitional living). International addresses don't fit US format. ZIP codes have been used to discriminate.", type:"text"},
+      {id:"4.6", text:"Are there any fields we currently require that should be optional instead?", note:"Think about: phone numbers, physical addresses (housing instability), legal name (can out transgender people), gender. Making something required can block or endanger someone.", type:"text"}
+    ]
+  },
+  {
+    id:"ai", icon:"🤖", title:"AI & Automation",
+    context:"Our site uses AI tools — chatbots, content recommenders, and post filters. AI learns from data that often reflects society's biases, so without guardrails it can treat people unfairly. You get to set those guardrails.",
+    questions:[
+      {id:"5.1", text:"When AI talks to our users (like a chatbot), what should it sound like?", note:"Think of the chatbot as a new team member. How should it treat people?", type:"check", options:["Warm and supportive — but not in a fake or talking-down way","Never use gendered language (no \"sir,\" \"ma'am,\" \"buddy\")","Use the same simple, clear language as the rest of the site","Never assume anything about who the person is or what their life is like"]},
+      {id:"5.2", text:"What sensitive topics should our AI be extra careful about?", note:"\"Extra careful\" means: handle with more sensitivity, know the right language, and know when to bring in a real person instead of guessing.", type:"check", options:["Mental health and people in crisis","Substance use, recovery, and sobriety","Gender identity and pronouns","Race and cultural sensitivity","Disability and requests for help or accommodations","Religion and spirituality","Money and financial hardship (don't assume everyone can afford things)"]},
+      {id:"5.3", text:"What should our AI NEVER be allowed to do?", note:"These would be hard rules — the AI literally cannot do these things, no exceptions.", type:"check", options:["Never try to guess someone's gender, race, sexuality, or disability","Never change how it responds based on someone's demographic information","Never suggest content based on what it assumes about someone's identity","Never limit someone's access or options based on who they are","Never save or remember sensitive things someone shared without asking permission","Never make jokes about identity, bodies, or culture"]},
+      {id:"5.4", text:"What should AI do when it encounters something it doesn't understand?", note:"Example: someone uses a term for their identity that the AI wasn't trained on, or asks about a cultural practice the AI doesn't know about.", type:"check", options:["Be honest that it doesn't know and offer to connect them with a real person","Ask the person to explain rather than making assumptions","Flag it so you can review it and the system can learn"]},
+      {id:"5.5", text:"Should you review AI-written content before it goes live?", note:"\"AI-written content\" means anything the AI writes that other people will see — blog posts, descriptions, automated messages, etc.", type:"check", options:["Yes — review everything the AI writes before it's published","Only review stuff about identity, inclusion, or sensitive topics","Let it publish automatically, but flag things for you to spot-check regularly"]},
+      {id:"5.6", text:"How should our automated content filters handle identity-related posts?", note:"Content filters are known to make mistakes: LGBTQ+ content gets flagged as \"sexual,\" disability discussions as \"medical misinformation,\" racial justice as \"hate speech.\" How should we handle this?", type:"text"}
+    ]
+  },
+  {
+    id:"community", icon:"🤝", title:"Community & Events",
+    context:"If the site has any community features — event sign-ups, forums, comment sections, user profiles — this section covers how we keep those spaces safe and welcoming.",
+    questions:[
+      {id:"6.1", text:"When someone signs up for an event, what should the registration form ask?", note:"Think about: food allergies/dietary restrictions (kosher, halal, vegan), accessibility needs (wheelchair access, hearing loop, large print), pronoun preferences for name tags, ASL interpreters, childcare, financial help with fees, etc.", type:"text"},
+      {id:"6.2", text:"For online/virtual events, what accessibility is needed?", type:"check", options:["Live captions that show what's being said in real-time (like subtitles)","ASL (sign language) interpreter available if requested","Recordings with captions available afterward","All slides and handouts must work with screen readers","Multiple ways to participate — not just speaking (also text chat, Q&A, or submitting after)"]},
+      {id:"6.3", text:"For in-person events, what accessibility is needed?", type:"check", options:["Venue must be wheelchair accessible (ramps, elevators, accessible bathrooms)","Gender-neutral restrooms available","A quiet room for people who need a sensory break","Scent-free zones (strong fragrances can trigger migraines, asthma, allergic reactions)","Food options for dietary needs (halal, kosher, vegan, gluten-free, allergy-safe)","A private space for nursing/pumping","Childcare or kid-friendly options so parents can attend","Sliding scale pricing or financial assistance"]},
+      {id:"6.4", text:"Should we have a written code of conduct? What should it cover?", note:"A code of conduct is the community's rules for how people treat each other: no harassment, no hate speech, respect identities, consequences for violations, etc.", type:"text"},
+      {id:"6.5", text:"If someone experiences harassment, how should they report it?", note:"Think about: anonymous reporting? How fast should we respond? Who reviews reports? Can the reported person appeal? Should the community know the outcome?", type:"text"},
+      {id:"6.6", text:"On user profiles, should people be able to share any of the following?", note:"All optional — nobody has to share anything they don't want to.", type:"check", options:["Their pronouns (she/her, they/them, etc.)","Accessibility needs (so event organizers know)","What language(s) they speak","Their cultural background (totally optional)","Keep profiles minimal — less is more"]}
+    ]
+  },
+  {
+    id:"emails", icon:"📧", title:"Emails & Outreach",
+    context:"Every email, text, newsletter, and social media post is an extension of the site. If our website is inclusive but our emails say \"Hey guys,\" we've undone our own work.",
+    questions:[
+      {id:"7.1", text:"What inclusion rules should apply to our emails?", note:"\"Plain-text alternative\" means including a simple text version of every designed email — because some email apps can't display fancy layouts, and screen readers work better with plain text.", type:"check", options:["Include a simple text version of every email (for screen readers and basic email apps)","Every image in an email must have a description for people who can't see it","Use gender-neutral greetings (\"Hi there\" not \"Hey guys\")","Write at the same simple reading level as the website","Translate important emails for non-English speakers"]},
+      {id:"7.2", text:"What rules for our social media accounts?", note:"Should every image include a written description? Diverse representation in posts? How to handle hateful comments?", type:"text"},
+      {id:"7.3", text:"How should we be respectful with notifications?", type:"check", options:["People must be able to choose how often they hear from us","Every message must have an easy way to unsubscribe","Notifications should never reveal sensitive info (like recovery status in a subject line)","Be thoughtful about timing — don't send during major religious holidays"]},
+      {id:"7.4", text:"Do our outreach materials actually reflect our community?", note:"Who's shown in the photos? What language is used? Would someone from every part of our community see themselves in it?", type:"text"}
+    ]
+  },
+  {
+    id:"privacy", icon:"🔒", title:"Privacy & Safety",
+    context:"Inclusion and privacy go hand in hand. When we collect personal information about identity — orientation, disability, recovery status — that data can cause real harm if it ends up in the wrong hands.",
+    questions:[
+      {id:"8.1", text:"Which types of personal info need the strongest protection?", note:"Think about what could cause someone real harm if leaked or shared without permission.", type:"check", options:["Sexual orientation","Gender identity / whether someone is transgender","Disability status","Recovery / sobriety status","Immigration status","Religious beliefs","Mental health information","HIV/health status","All of the above — protect all of it equally"]},
+      {id:"8.2", text:"Who should be allowed to see someone's identity-related info?", type:"check", options:["Only the person themselves — nobody else can see it","Only designated staff in an inclusion/accessibility role","Never shown to other users unless the person turns it on","The person gets full control over exactly who can see what"]},
+      {id:"8.3", text:"How should we support people who want to stay anonymous?", note:"Can someone participate without their real name? Report harassment anonymously? Register for events without appearing on a public list? For recovery, anonymity isn't just a preference — it's a tradition and sometimes a safety issue.", type:"text"},
+      {id:"8.4", text:"Should we have public statements about accessibility and inclusion?", note:"An \"accessibility statement\" tells visitors what we've done for disabled users. A \"DEI statement\" shares our values around diversity and inclusion.", type:"check", options:["Accessibility statement visible at the bottom of every page","DEI/inclusion statement on our About page","Both — and include contact info for reporting problems","Information on how to request an accommodation (like ASL for an event)"]},
+      {id:"8.5", text:"What legal standards should our site meet?", note:"Cheat sheet: ADA = main US disability rights law. WCAG = web accessibility guidelines (\"AA\" is standard, \"AAA\" is gold standard). Section 508 = extra rules if you receive federal money.", type:"check", options:["ADA compliance (the main US disability law)","WCAG AA (standard web accessibility guidelines)","WCAG AAA (the gold standard — strictest level)","Section 508 (applies if we receive federal funding)","Whatever our state requires","Not sure — I need guidance on this one"]}
+    ]
+  },
+  {
+    id:"recovery", icon:"💛", title:"Recovery-Specific Inclusion",
+    context:"Our community serves people in recovery, which creates unique inclusion needs. Anonymity traditions, how we talk about substances, how different identities experience recovery differently, and sensitivity to trauma all need specific guidelines.",
+    questions:[
+      {id:"9.1", text:"How should we honor anonymity traditions in the digital world?", note:"AA's 11th and 12th traditions say we maintain anonymity \"at the level of press, radio, and films.\" But what does that mean for a website, social media, or an app? Can we show faces? List attendees? Can AI remember someone is in recovery? This is your call.", type:"text"},
+      {id:"9.2", text:"What language rules should we follow when talking about recovery?", note:"Say \"person in recovery\" not \"addict\" or \"alcoholic.\" Avoid \"clean/dirty\" (implies people using substances are dirty). Avoid \"abuse\" as in \"substance abuse\" (use \"substance use\" — \"abuse\" implies fault). Relapse is part of the journey, not a \"failure.\"", type:"text"},
+      {id:"9.3", text:"How should we address that recovery looks different for different people?", note:"People of color, LGBTQ+ folks, women, young people, people with disabilities — each face unique barriers in recovery spaces. Some don't feel safe in traditional meetings. How should our platform support that?", type:"text"},
+      {id:"9.4", text:"Should we offer dedicated safe spaces for specific communities?", note:"Spaces (online or in-person) specifically for people who share an identity — so they can connect with others who understand their experience.", type:"check", options:["Women's meetings/spaces","LGBTQ+ meetings/spaces","BIPOC (Black, Indigenous, People of Color) meetings/spaces","Young people's spaces","Secular/atheist/agnostic spaces (non-religious recovery)","Disability-specific spaces"]},
+      {id:"9.5", text:"What rules should AI follow when recovery topics come up?", note:"Should our chatbot ever give recovery advice, or always defer to a real person? If someone says they've relapsed, what should it do? If someone seems in crisis, should the AI try to help or immediately connect them to a human?", type:"text"}
+    ]
+  },
+  {
+    id:"governance", icon:"⚙️", title:"Your Role & Process",
+    context:"This last section is about how your role actually works in practice. When do developers come to you? How often do you review things? What's sustainable for your schedule? We want this setup to work for YOU.",
+    questions:[
+      {id:"10.1", text:"How involved do you want to be in the building process?", note:"There's no wrong answer. Some want to see everything before it goes live. Others prefer periodic check-ins. Whatever works for your life.", type:"check", options:["I want to review and approve all new features before they go live","I want to review only features that relate to identity and inclusion","I'd prefer regular check-ins (monthly or quarterly) instead of constant review","I'm available for questions when the team needs me, but don't need to see everything","A mix of these — let me explain below"]},
+      {id:"10.2", text:"How should the team reach out to you when they have a question?", note:"What's easiest for you? Text? Email? Shared doc? Weekly meeting? We'll set it up however works.", type:"text"},
+      {id:"10.3", text:"What regular reviews should happen to keep things on track?", note:"Scheduled check-ups to make sure the site stays inclusive over time — not just at launch.", type:"check", options:["Every few months: review the entire website for accessibility issues","Every month: review how the AI chatbot has been behaving","Once a year: review all the language on the site for inclusiveness","After every event: review what worked and what didn't for accessibility","Ongoing: regularly review community feedback about inclusion"]},
+      {id:"10.4", text:"Should users be able to report accessibility problems?", note:"Giving people who use the site a way to tell us when something isn't working for them.", type:"check", options:["A \"Report a Problem\" button visible on every page","An email address specifically for accessibility concerns","An anonymous feedback form","All of the above"]},
+      {id:"10.5", text:"Is there anything we didn't ask about that you want to add?", note:"Seriously — this is YOUR document. If we missed something, if something rubbed you the wrong way, if there's a concern that doesn't fit any section — put it here. We don't know what we don't know.", type:"text"}
+    ]
+  }
+];
+
+// ═══════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════
+let currentSection = -1; // -1 = welcome
+let answers = {};
+let isSubmitted = false;
+let saveTimeout = null;
+
+const app = document.getElementById('app');
+const saveToast = document.getElementById('saveToast');
+
+// ═══════════════════════════════════════
+// PERSISTENCE
+// ═══════════════════════════════════════
+async function loadSaved() {
+  try {
+    const res = await fetch('/api/load');
+    const data = await res.json();
+    if (data.answers) answers = data.answers;
+    if (data.lastSection !== undefined) currentSection = data.submitted ? -2 : data.lastSection;
+    if (data.submitted) isSubmitted = true;
+  } catch(e) { console.log('No saved data'); }
+}
+
+function scheduleSave() {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(doSave, 800);
+}
+
+async function doSave() {
+  try {
+    await fetch('/api/save', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ answers, progress: calcProgress(), lastSection: currentSection })
+    });
+    showSaveToast();
+  } catch(e) { console.error('Save failed', e); }
+}
+
+function showSaveToast() {
+  saveToast.classList.add('show');
+  setTimeout(() => saveToast.classList.remove('show'), 1500);
+}
+
+function calcProgress() {
+  let total = 0, filled = 0;
+  SECTIONS.forEach(s => s.questions.forEach(q => {
+    total++;
+    const a = answers[q.id];
+    if (a && ((Array.isArray(a) && a.length > 0) || (typeof a === 'string' && a.trim()))) filled++;
+  }));
+  return total ? Math.round((filled / total) * 100) : 0;
+}
+
+// ═══════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════
+function render() {
+  if (isSubmitted) return renderSubmitted();
+  if (currentSection === -1) return renderWelcome();
+  renderSection(currentSection);
+}
+
+function renderWelcome() {
+  app.innerHTML = `
+    <div class="hero">
+      <div class="hero-badge">Your Voice Matters</div>
+      <h1>Accessibilities Chair<br><span>Inclusion Questionnaire</span></h1>
+      <p>Every answer you give becomes a rule that developers and AI agents must follow.</p>
+    </div>
+    <div class="section-card welcome-card">
+      <span style="font-size:48px;display:block;margin-bottom:12px">👋</span>
+      <h2>Hey! This is your questionnaire.</h2>
+      <p>We built this to make sure your voice shapes every decision on the platform. Take it at your own pace — you can close it and come back anytime. Your answers save automatically.</p>
+      <div class="welcome-bullets">
+        <div class="welcome-bullet"><span>✓</span><span>Checkbox questions — check all that apply</span></div>
+        <div class="welcome-bullet"><span>✓</span><span>Open-ended questions — write as much or as little as you want</span></div>
+        <div class="welcome-bullet"><span>💡</span><span>Explainer boxes break down every technical term in plain English</span></div>
+        <div class="welcome-bullet"><span>⭐</span><span>If something is a dealbreaker, write "MUST HAVE" next to it</span></div>
+        <div class="welcome-bullet"><span>🔒</span><span>Your answers are private — only the development team sees them</span></div>
+      </div>
+      <button class="btn btn-start" onclick="currentSection=0;render();doSave();">Let's Get Started →</button>
+    </div>`;
+}
+
+function renderSubmitted() {
+  app.innerHTML = `
+    <div class="hero">
+      <div class="hero-badge">Complete</div>
+      <h1>Thank <span>You</span></h1>
+    </div>
+    <div class="section-card submitted-card">
+      <span class="big-emoji">🎉</span>
+      <h2>Your answers have been submitted!</h2>
+      <p>Everything you shared will be turned into the official Rules, Guardrails & Guidelines Sheet that every developer and AI agent must follow.<br><br>Nothing ships without your sign-off. We'll be in touch to review everything together. 💛</p>
+    </div>`;
+}
+
+function renderSection(idx) {
+  const s = SECTIONS[idx];
+  const pct = calcProgress();
+
+  let navPills = SECTIONS.map((sec, i) => {
+    let cls = 'nav-pill';
+    if (i === idx) cls += ' active';
+    else if (sectionHasAnswers(i)) cls += ' completed';
+    return `<button class="${cls}" onclick="goSection(${i})">${sec.icon}</button>`;
+  }).join('');
+
+  let questionsHtml = s.questions.map(q => {
+    let inputHtml = '';
+    if (q.type === 'check') {
+      const checked = answers[q.id] || [];
+      inputHtml = `<div class="check-group">${q.options.map((opt, oi) => {
+        const isChecked = checked.includes(opt);
+        return `<div class="check-option${isChecked?' checked':''}" onclick="toggleCheck('${q.id}',${oi})" role="checkbox" aria-checked="${isChecked}" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleCheck('${q.id}',${oi})}">
+          <div class="check-box"><svg viewBox="0 0 16 16"><polyline points="3,8 7,12 13,4"/></svg></div>
+          <span class="check-text">${opt}</span>
+        </div>`;
+      }).join('')}</div>`;
+    } else {
+      const val = answers[q.id] || '';
+      inputHtml = `<textarea class="text-area" placeholder="Share your thoughts here..." oninput="updateText('${q.id}',this.value)">${val}</textarea>`;
+    }
+
+    return `<div class="question-block">
+      <div class="q-label"><span class="q-number">${q.id}</span> ${q.text}</div>
+      ${q.note ? `<div class="q-explainer">${q.note}</div>` : ''}
+      ${inputHtml}
+    </div>`;
+  }).join('');
+
+  const isFirst = idx === 0;
+  const isLast = idx === SECTIONS.length - 1;
+
+  app.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label"><strong>Section ${idx+1}</strong> of ${SECTIONS.length}</span>
+        <span class="progress-pct">${pct}% complete</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="section-nav">${navPills}</div>
+    </div>
+    <div class="section-card" key="${s.id}">
+      <div class="section-header">
+        <span class="section-icon">${s.icon}</span>
+        <h2 class="section-title">${s.title}</h2>
+        <div class="section-context">${s.context}</div>
+      </div>
+      ${questionsHtml}
+      <div class="nav-buttons">
+        ${!isFirst ? '<button class="btn btn-back" onclick="goSection('+(idx-1)+')">← Back</button>' : '<div></div>'}
+        ${isLast
+          ? '<button class="btn btn-submit" onclick="submitForm()">Submit My Answers ✨</button>'
+          : '<button class="btn btn-next" onclick="goSection('+(idx+1)+')">Next Section →</button>'}
+      </div>
+    </div>`;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function sectionHasAnswers(idx) {
+  return SECTIONS[idx].questions.some(q => {
+    const a = answers[q.id];
+    return a && ((Array.isArray(a) && a.length > 0) || (typeof a === 'string' && a.trim()));
+  });
+}
+
+// ═══════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════
+function toggleCheck(qid, optIdx) {
+  const q = findQuestion(qid);
+  if (!q) return;
+  if (!answers[qid]) answers[qid] = [];
+  const opt = q.options[optIdx];
+  const idx = answers[qid].indexOf(opt);
+  if (idx > -1) answers[qid].splice(idx, 1);
+  else answers[qid].push(opt);
+  scheduleSave();
+  render();
+}
+
+function updateText(qid, val) {
+  answers[qid] = val;
+  scheduleSave();
+}
+
+function findQuestion(qid) {
+  for (const s of SECTIONS) for (const q of s.questions) if (q.id === qid) return q;
+  return null;
+}
+
+function goSection(idx) {
+  currentSection = idx;
+  doSave();
+  render();
+}
+
+async function submitForm() {
+  if (!confirm('Ready to submit? You can still edit after if needed.')) return;
+  try {
+    await fetch('/api/submit', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ answers })
+    });
+    isSubmitted = true;
+    render();
+  } catch(e) {
+    alert('Something went wrong — try again?');
+  }
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+(async function init() {
+  await loadSaved();
+  render();
+})();
+</script>
+</body>
+</html>

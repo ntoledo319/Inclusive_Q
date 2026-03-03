@@ -1,0 +1,24 @@
+app = 'accessibilities-questionnaire'
+primary_region = 'ewr'
+
+[build]
+
+[env]
+  DATA_DIR = '/data'
+  ADMIN_KEY = 'necypaa2026'
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+
+[mounts]
+  source = 'questionnaire_data'
+  destination = '/data'
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
