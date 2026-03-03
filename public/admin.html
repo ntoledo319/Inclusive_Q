@@ -53,6 +53,12 @@ const QUESTIONS = {"1.1":"How easy should text be to read against its background
 
 const key = new URLSearchParams(window.location.search).get('key');
 
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
 async function load() {
   try {
     const res = await fetch(`/api/admin/responses?key=${key}`);
@@ -94,9 +100,9 @@ function renderAdmin(data) {
         if (!a || (Array.isArray(a) && a.length === 0) || (typeof a === 'string' && !a.trim())) {
           answerHtml = '<div class="no-answer">— no answer yet —</div>';
         } else if (Array.isArray(a)) {
-          answerHtml = '<div class="answer">' + a.map(v => `<span class="tag">✓ ${v}</span>`).join('') + '</div>';
+          answerHtml = '<div class="answer">' + a.map(v => `<span class="tag">✓ ${escHtml(v)}</span>`).join('') + '</div>';
         } else {
-          answerHtml = `<div class="answer">${a.replace(/\n/g,'<br>')}</div>`;
+          answerHtml = `<div class="answer">${escHtml(a).replace(/\n/g,'<br>')}</div>`;
         }
         return `<div class="qa"><div class="q-text"><span class="q-num">${qid}</span> ${QUESTIONS[qid]||qid}</div>${answerHtml}</div>`;
       }).join('');
