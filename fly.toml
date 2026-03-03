@@ -6,7 +6,6 @@ primary_region = 'ams'
 
 [env]
   DATA_DIR = '/data'
-  ADMIN_KEY = 'necypaa2026'
 
 [http_service]
   internal_port = 3000
