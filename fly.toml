@@ -2,6 +2,7 @@ app = 'accessibilities-questionnaire'
 primary_region = 'ewr'
 
 [build]
+  dockerfile = "Dockerfile"
 
 [env]
   DATA_DIR = '/data'
@@ -17,6 +18,16 @@ primary_region = 'ewr'
 [mounts]
   source = 'questionnaire_data'
   destination = '/data'
+
+[checks]
+  [checks.httpcheck]
+    type = "http"
+    port = 3000
+    method = "GET"
+    path = "/"
+    interval = "10s"
+    timeout = "5s"
+    grace_period = "10s"
 
 [[vm]]
   memory = '256mb'
