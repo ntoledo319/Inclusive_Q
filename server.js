@@ -38,8 +38,8 @@ app.post('/api/save', (req, res) => {
     const { answers, progress, lastSection } = req.body;
     const data = loadResponses();
     data.answers = answers || {};
-    data.progress = progress || 0;
-    data.lastSection = lastSection || 0;
+    data.progress = progress ?? 0;
+    data.lastSection = lastSection ?? 0;
     data.lastUpdated = new Date().toISOString();
     if (!data.firstStarted) data.firstStarted = new Date().toISOString();
     saveResponses(data);

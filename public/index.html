@@ -710,10 +710,10 @@ function calcProgress() {
 // ═══════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════
-function render() {
+function render(shouldScrollTop = false) {
   if (isSubmitted) return renderSubmitted();
   if (currentSection === -1) return renderWelcome();
-  renderSection(currentSection);
+  renderSection(currentSection, shouldScrollTop);
 }
 
 function renderWelcome() {
@@ -751,7 +751,7 @@ function renderSubmitted() {
     </div>`;
 }
 
-function renderSection(idx) {
+function renderSection(idx, shouldScrollTop = false) {
   const s = SECTIONS[idx];
   const pct = calcProgress();
 
@@ -759,7 +759,7 @@ function renderSection(idx) {
     let cls = 'nav-pill';
     if (i === idx) cls += ' active';
     else if (sectionHasAnswers(i)) cls += ' completed';
-    return `<button class="${cls}" onclick="goSection(${i})">${sec.icon}</button>`;
+    return `<button class="${cls}" data-section-idx="${i}" onclick="goSection(${i})">${sec.icon}</button>`;
   }).join('');
 
   let questionsHtml = s.questions.map(q => {
@@ -768,7 +768,7 @@ function renderSection(idx) {
       const checked = answers[q.id] || [];
       inputHtml = `<div class="check-group">${q.options.map((opt, oi) => {
         const isChecked = checked.includes(opt);
-        return `<div class="check-option${isChecked?' checked':''}" onclick="toggleCheck('${q.id}',${oi})" role="checkbox" aria-checked="${isChecked}" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleCheck('${q.id}',${oi})}">
+        return `<div class="check-option${isChecked?' checked':''}" data-qid="${q.id}" data-opt-idx="${oi}" onclick="toggleCheck('${q.id}',${oi})" role="checkbox" aria-checked="${isChecked}" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleCheck('${q.id}',${oi})}">
           <div class="check-box"><svg viewBox="0 0 16 16"><polyline points="3,8 7,12 13,4"/></svg></div>
           <span class="check-text">${opt}</span>
         </div>`;
@@ -792,9 +792,9 @@ function renderSection(idx) {
     <div class="progress-wrap">
       <div class="progress-info">
         <span class="progress-label"><strong>Section ${idx+1}</strong> of ${SECTIONS.length}</span>
-        <span class="progress-pct">${pct}% complete</span>
+        <span class="progress-pct" id="progressPct">${pct}% complete</span>
       </div>
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:${pct}%"></div></div>
       <div class="section-nav">${navPills}</div>
     </div>
     <div class="section-card" key="${s.id}">
@@ -812,7 +812,9 @@ function renderSection(idx) {
       </div>
     </div>`;
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (shouldScrollTop) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function sectionHasAnswers(idx) {
@@ -833,8 +835,13 @@ function toggleCheck(qid, optIdx) {
   const idx = answers[qid].indexOf(opt);
   if (idx > -1) answers[qid].splice(idx, 1);
   else answers[qid].push(opt);
+  const optionEl = document.querySelector(`.check-option[data-qid="${qid}"][data-opt-idx="${optIdx}"]`);
+  if (optionEl) {
+    optionEl.classList.toggle('checked', idx === -1);
+    optionEl.setAttribute('aria-checked', idx === -1 ? 'true' : 'false');
+  }
+  refreshProgressUI();
   scheduleSave();
-  render();
 }
 
 function updateText(qid, val) {
@@ -850,7 +857,22 @@ function findQuestion(qid) {
 function goSection(idx) {
   currentSection = idx;
   doSave();
-  render();
+  render(true);
+}
+
+function refreshProgressUI() {
+  const pct = calcProgress();
+  const pctEl = document.getElementById('progressPct');
+  const fillEl = document.getElementById('progressFill');
+  if (pctEl) pctEl.textContent = `${pct}% complete`;
+  if (fillEl) fillEl.style.width = `${pct}%`;
+
+  document.querySelectorAll('.section-nav .nav-pill').forEach((pill) => {
+    const idx = Number(pill.getAttribute('data-section-idx'));
+    if (Number.isNaN(idx)) return;
+    pill.classList.toggle('active', idx === currentSection);
+    pill.classList.toggle('completed', idx !== currentSection && sectionHasAnswers(idx));
+  });
 }
 
 async function submitForm() {
